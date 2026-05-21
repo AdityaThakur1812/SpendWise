@@ -34,9 +34,9 @@
         <h2>Add Transaction</h2>
 
         <form id="transactionForm">
-          <input type="text" id="title" placeholder="Enter Title" />
+          <input type="text" id="title" placeholder="Enter Title" required />
 
-          <input type="number" id="amount" placeholder="Enter Amount" />
+          <input type="number" id="amount" placeholder="Enter Amount" required />
 
           <select id="type">
             <option>Income</option>
@@ -52,6 +52,7 @@
           
         </div>
       </div>
+      <button id="clearAllBtn">Clear All</button>
     </div>
 
     <script src="script.js"></script>
