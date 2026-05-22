@@ -3,13 +3,32 @@ const title = document.getElementById("title");
 const amount = document.getElementById("amount");
 const type = document.getElementById("type");
 const transactionList = document.getElementById("transactionList");
-const balance = document.getElementById('balance');
-const income = document.getElementById('income');
-const expense = document.getElementById('expense');
+const balance = document.getElementById("balance");
+const income = document.getElementById("income");
+const expense = document.getElementById("expense");
 const clearAllBtn = document.getElementById("clearAllBtn");
+const category = document.getElementById("category");
+const emptyMessage = document.getElementById("emptyMessage"); 
+const transactionCount = document.getElementById('transactionCount');
+const recent = document.getElementById('recent');
 
 let transactions = [];
 loadTransactions();
+
+function updateUI(){
+if(transactions.length === 0){
+    emptyMessage.style.display = "block";
+    recent.style.display = "none";
+    clearAllBtn.style.display ="none";
+}
+else{
+    emptyMessage.style.display = "none";
+    recent.style.display = "block";
+    clearAllBtn.style.display ="block"
+}
+}
+
+
 
 transactionForm.addEventListener("submit", submit);
 
@@ -18,18 +37,31 @@ function submit(e) {
   let transactionTitle = title.value;
   let transactionAmount = amount.value;
   let transactionType = type.value;
+  let transactionCategory = category.value;
 
+  if (
+    transactionTitle === "" ||
+    transactionAmount === "" ||
+    transactionCategory === ""
+  ) {
+    alert("Please fill all fields");
+    return;
+  }
   const transaction = {
-    id : Date.now(),
+    id: Date.now(),
     title: transactionTitle,
     amount: Number(transactionAmount),
     type: transactionType,
+    category: transactionCategory,
+    date: new Date().toLocaleDateString(),
   };
 
   transactions.push(transaction);
+  updateTransactionCount();
   renderTransactions();
   updateSummary();
   saveTransactions();
+  updateUI();
   title.value = "";
   amount.value = "";
 }
@@ -39,14 +71,16 @@ function renderTransactions() {
 
   transactions.forEach((t) => {
     const transactionItem = document.createElement("div");
+
     transactionItem.classList.add("transaction-item");
     transactionItem.innerHTML = `
         <div> 
           <h4>${t.title}  </h4>
-          <p> ${t.type} </p>
+          <small>${t.date}</small>
+          <p class="category-badge"> ${t.category} </p>
         </div>
         <div>
-          <span>RS ${t.amount}</span>
+          <span>RS ${t.amount.toLocaleString()}</span>
           <button class = "delete-btn" onclick ="deleteTransaction(${t.id})">Delete</Button>
         </div>`;
     if (t.type === "Income") {
@@ -54,17 +88,43 @@ function renderTransactions() {
     } else {
       transactionItem.style.borderRight = "5px solid red";
     }
+    const badge = transactionItem.querySelector(".category-badge");
+    switch (t.category) {
+      case "Food":
+        badge.style.background = "#f97316";
+        break;
+
+      case "Travel":
+        badge.style.background = "#3b82f6";
+        break;
+
+      case "Shopping":
+        badge.style.background = "#ec4899";
+        break;
+
+      case "Bills":
+        badge.style.background = "#ef4444";
+        break;
+
+      case "Salary":
+        badge.style.background = "#22c55e";
+        break;
+
+      case "Entertainment":
+        badge.style.background = "#14b8a6";
+        break;
+    }
     transactionList.appendChild(transactionItem);
   });
 }
 
-function updateSummary(){
-  let totalIncome= 0;
-  let totalExpense = 0 ;
-  transactions.forEach((t) =>{
-    if(t.type === "Income"){
-      totalIncome +=t.amount;
-    }else{
+function updateSummary() {
+  let totalIncome = 0;
+  let totalExpense = 0;
+  transactions.forEach((t) => {
+    if (t.type === "Income") {
+      totalIncome += t.amount;
+    } else {
       totalExpense += t.amount;
     }
   });
@@ -75,33 +135,43 @@ function updateSummary(){
   income.textContent = `RS ${totalIncome}`;
 }
 
-function deleteTransaction(id){
-  transactions = transactions.filter((t) =>{
+function deleteTransaction(id) {
+  transactions = transactions.filter((t) => {
     return t.id !== id;
   });
   renderTransactions();
+  updateTransactionCount();
   saveTransactions();
+  updateUI();
   updateSummary();
 }
 
-function saveTransactions(){
-  localStorage.setItem("transaction" , JSON.stringify(transactions));
+function saveTransactions() {
+  localStorage.setItem("transaction", JSON.stringify(transactions));
 }
 
-function loadTransactions(){
-  storedTransactions = localStorage.getItem("transaction");
-  if(storedTransactions){
+function loadTransactions() {
+  const storedTransactions = localStorage.getItem("transaction");
+  if (storedTransactions) {
     transactions = JSON.parse(storedTransactions);
   }
   renderTransactions();
   updateSummary();
+  updateTransactionCount();
+  updateUI();
 }
 
 clearAllBtn.addEventListener("click", () => {
-  if(confirm("Delete all transactions?")){
+  if (confirm("Delete all transactions?")) {
     transactions = [];
+    updateTransactionCount();
     saveTransactions();
     renderTransactions();
     updateSummary();
-}   
+    updateUI();
+  }
 });
+
+function updateTransactionCount() {
+  transactionCount.innerText = transactions.length;
+}

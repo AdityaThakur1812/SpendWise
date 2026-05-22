@@ -36,21 +36,39 @@
         <form id="transactionForm">
           <input type="text" id="title" placeholder="Enter Title" required />
 
-          <input type="number" id="amount" placeholder="Enter Amount" required />
+          <input
+            type="number"
+            id="amount"
+            placeholder="Enter Amount"
+            required
+          />
 
           <select id="type">
             <option>Income</option>
             <option>Expense</option>
           </select>
-          <button type="submit" >Add Transaction</button>
+
+          <select id="category">
+            <option value="">Select Category</option>
+            <option value="Food">🍔 Food</option>
+            <option value="Shopping">🛍 Shopping</option>
+            <option value="Travel">✈️ Travel</option>
+            <option value="Bills">💡 Bills</option>
+            <option value="Entertainment">🎬 Entertainment</option>
+            <option value="Salary">💼 Salary</option>
+          </select>
+          <button type="submit">Add Transaction</button>
         </form>
       </div>
 
       <div class="transactions">
-        <h2>Recent Transactions</h2>
-        <div class="transaction-list" id="transactionList">
-          
-        </div>
+        <p id="emptyMessage">
+          No transactions yet. Add your first transaction 🚀
+        </p>
+        <h2 id="recent">
+          Recent Transactions : <span id="transactionCount"></span>
+        </h2>
+        <div class="transaction-list" id="transactionList"></div>
       </div>
       <button id="clearAllBtn">Clear All</button>
     </div>

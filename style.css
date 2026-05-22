@@ -1,3 +1,14 @@
+:root{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --primary:#3b82f6;
+    --income:#22c55e;
+    --expense:#ef4444;
+    --text:#ffffff;
+    --muted:#94a3b8;
+}
+
+
 *{
     margin:0;
     padding:0;
@@ -33,9 +44,27 @@ body{
 }
 
 .card{
-    background:#1e293b;
+    background:var(--card);
     padding:25px;
-    border-radius:15px;
+    border-radius:16px;
+    transition:.3s ease;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.balance-card{
+    border-left:5px solid var(--primary);
+}
+
+.income-card{
+    border-left:5px solid var(--income);
+}
+
+.expense-card{
+    border-left:5px solid var(--expense);
 }
 
 .card h3{
@@ -48,7 +77,7 @@ body{
 }
 
 .transaction-form{
-    background:#1e293b;
+    background:var(--card);
     padding:25px;
     border-radius:15px;
     margin-bottom:30px;
@@ -68,11 +97,35 @@ input,select,button,option{
     font-size:1rem;
 }
 
+input,select{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#334155;
+    color:white;
+    outline:none;
+    height: 60px;
+    font-weight: 600;
+}
+
+input:focus,select:focus{
+    border:2px solid var(--primary);
+}
+
 button{
-    background:#3b82f6;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:var(--primary);
     color:white;
     cursor:pointer;
     font-weight:bold;
+    transition:.3s;
+}
+
+button:hover{
+    opacity:.9;
 }
 
 .transactions{
@@ -86,9 +139,10 @@ button{
     justify-content:space-between;
     align-items:center;
     background:#0f172a;
-    padding:15px;
-    border-radius:10px;
+    padding:18px;
+    border-radius:12px;
     margin-top:15px;
+    transition: .3s;
 }
 
 .delete-btn{
@@ -99,4 +153,24 @@ button{
     padding:8px 12px;
     border-radius:5px;
     cursor:pointer;
+}
+
+.category-badge{
+    display: inline-block;
+    margin-top: 8px;
+    padding: 4px 10px;
+    background:#334155;
+    color:white;
+    font-size:12px;
+}
+
+.transaction-item:hover{
+    transform:translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.3);
+}
+
+#emptyMessage{
+    text-align:center;
+    color:var(--muted);
+    padding:30px 0;
 }
