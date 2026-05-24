@@ -174,3 +174,64 @@ button:hover{
     color:var(--muted);
     padding:30px 0;
 }
+
+.search-container{
+    margin: 20px 0;
+}
+
+#searchInput{
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background:#334155;
+    color:white;
+}
+
+.no-result{
+    text-align: center;
+    color :#94a3b8;
+    padding: 30px;
+}
+
+#searchInput:focus{
+    outline:none;
+    border:2px solid #3b82f6;
+}
+
+.filter-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-btn{
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    background:#334155;
+    color:white;
+    transition:.3s;
+}
+
+.filter-btn.active{
+   background:#3b82f6;
+}
+#filterInfo{
+    line-height: 1.5;
+    margin-top: 20px;
+    color: #94a3b8;
+}
+
+.chart-container{
+    background: var(--card);
+    padding:20px;
+    border-radius:16px;
+    margin-bottom:30px;
+}
+
+#expenseChart{
+    max-height: 300px;
+}

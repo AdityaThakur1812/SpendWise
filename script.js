@@ -8,27 +8,46 @@ const income = document.getElementById("income");
 const expense = document.getElementById("expense");
 const clearAllBtn = document.getElementById("clearAllBtn");
 const category = document.getElementById("category");
-const emptyMessage = document.getElementById("emptyMessage"); 
-const transactionCount = document.getElementById('transactionCount');
-const recent = document.getElementById('recent');
+const emptyMessage = document.getElementById("emptyMessage");
+const transactionCount = document.getElementById("transactionCount");
+const recent = document.getElementById("recent");
+const searchInput = document.getElementById("searchInput");
+const filterBtn = document.querySelectorAll(".filter-btn");
 
 let transactions = [];
+let searchItem = "";
+let selectedCategory = "All";
+
+searchInput.addEventListener("input", () => {
+  searchItem = searchInput.value.trim().replace(/\s+/g, " ").toLowerCase();
+  renderTransactions();
+});
+
+filterBtn.forEach((f) => {
+  f.addEventListener("click", () => {
+    selectedCategory = f.dataset.category;
+
+    filterBtn.forEach((b) => {
+      b.classList.remove("active");
+    });
+    f.classList.add("active");
+    renderTransactions();
+  });
+});
+
 loadTransactions();
 
-function updateUI(){
-if(transactions.length === 0){
+function updateUI() {
+  if (transactions.length === 0) {
     emptyMessage.style.display = "block";
     recent.style.display = "none";
-    clearAllBtn.style.display ="none";
-}
-else{
+    clearAllBtn.style.display = "none";
+  } else {
     emptyMessage.style.display = "none";
     recent.style.display = "block";
-    clearAllBtn.style.display ="block"
+    clearAllBtn.style.display = "block";
+  }
 }
-}
-
-
 
 transactionForm.addEventListener("submit", submit);
 
@@ -62,6 +81,7 @@ function submit(e) {
   updateSummary();
   saveTransactions();
   updateUI();
+  updateChart();
   title.value = "";
   amount.value = "";
 }
@@ -69,7 +89,23 @@ function submit(e) {
 function renderTransactions() {
   transactionList.innerHTML = ""; //Without this:Duplicate transactions appear
 
-  transactions.forEach((t) => {
+  filteredTransaction = transactions.filter((t) => {
+    const searchMatch =
+      t.title.toLowerCase().includes(searchItem) ||
+      t.category.toLowerCase().includes(searchItem) ||
+      t.amount.toString().includes(searchItem);
+    const categoryMatch =
+      selectedCategory === "All" || selectedCategory === t.category;
+
+    return searchMatch && categoryMatch;
+  });
+  let filterInfo = document.getElementById("filterInfo");
+  if (filteredTransaction.length === 0) {
+    filterInfo.style.display = "none";
+    transactionList.innerHTML = `<p class="no-result"> No matching transaction found</p>`;
+  } else filterInfo.textContent = `${filteredTransaction.length} results`;
+
+  filteredTransaction.forEach((t) => {
     const transactionItem = document.createElement("div");
 
     transactionItem.classList.add("transaction-item");
@@ -143,6 +179,7 @@ function deleteTransaction(id) {
   updateTransactionCount();
   saveTransactions();
   updateUI();
+  updateChart();
   updateSummary();
 }
 
@@ -159,6 +196,7 @@ function loadTransactions() {
   updateSummary();
   updateTransactionCount();
   updateUI();
+  updateChart();
 }
 
 clearAllBtn.addEventListener("click", () => {
@@ -169,6 +207,7 @@ clearAllBtn.addEventListener("click", () => {
     renderTransactions();
     updateSummary();
     updateUI();
+    updateChart();
   }
 });
 
