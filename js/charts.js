@@ -3,6 +3,7 @@ let expenseChart;
 function updateChart(){
     let categoryTotals ={};
     transactions.forEach((t) =>{
+        if(t.type === 'Income') return;
         if(!categoryTotals[t.category]){
             categoryTotals[t.category] =0;
         }

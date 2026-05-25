@@ -13,6 +13,7 @@ const transactionCount = document.getElementById("transactionCount");
 const recent = document.getElementById("recent");
 const searchInput = document.getElementById("searchInput");
 const filterBtn = document.querySelectorAll(".filter-btn");
+const totalTransationsEl = document.getElementById('totalTransaction');
 
 let transactions = [];
 let searchItem = "";
@@ -80,6 +81,7 @@ function submit(e) {
   renderTransactions();
   updateSummary();
   saveTransactions();
+  updateAnalysis();
   updateUI();
   updateChart();
   title.value = "";
@@ -177,6 +179,7 @@ function deleteTransaction(id) {
   });
   renderTransactions();
   updateTransactionCount();
+  updateAnalysis();
   saveTransactions();
   updateUI();
   updateChart();
@@ -194,6 +197,7 @@ function loadTransactions() {
   }
   renderTransactions();
   updateSummary();
+  updateAnalysis();
   updateTransactionCount();
   updateUI();
   updateChart();
@@ -206,6 +210,7 @@ clearAllBtn.addEventListener("click", () => {
     saveTransactions();
     renderTransactions();
     updateSummary();
+    updateAnalysis()
     updateUI();
     updateChart();
   }
@@ -213,4 +218,38 @@ clearAllBtn.addEventListener("click", () => {
 
 function updateTransactionCount() {
   transactionCount.innerText = transactions.length;
+}
+
+function updateAnalysis(){
+  totalTransationsEl.textContent =`${transactions.length}`;
+  let expenses = transactions.filter((t) =>{
+    return t.type === "Expense";
+  });
+  let highestExp = 0;
+  expenses.forEach((e) =>{
+    if(e.amount > highestExp) highestExp = e.amount ;
+  });
+  document.getElementById("highestExpense").innerText =`₹${highestExp.toLocaleString()}`;
+  let totalExp = 0;
+  expenses.forEach((e) =>{
+    totalExp += e.amount;
+  });
+  let averageExp = expense.length === 0? 0 : totalExp /6;
+  document.getElementById("averageExpense").innerText =`₹${Math.round(averageExp).toLocaleString()}`;
+
+  let categoryTotals = {};
+  expenses.forEach((e) =>{
+    if(!categoryTotals[e.category]){
+      categoryTotals[e.category] = 0;
+    }
+    categoryTotals[e.category] += e.amount;
+  });
+  let maxAmount = 0;
+  let topCategory ="-";
+  for(const cat in categoryTotals){
+    if(categoryTotals[cat] > maxAmount) maxAmount = categoryTotals[cat];
+    topCategory = cat;
+  }
+  document.getElementById("topCategory").innerText = topCategory;
+
 }
