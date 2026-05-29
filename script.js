@@ -14,7 +14,10 @@ const recent = document.getElementById("recent");
 const searchInput = document.getElementById("searchInput");
 const filterBtn = document.querySelectorAll(".filter-btn");
 const totalTransationsEl = document.getElementById('totalTransaction');
-
+const themeToggle = document.getElementById('themeToggle');
+let currentTheme ="dark";
+themeToggle.addEventListener('click',toggleTheme);
+loadTheme();
 let transactions = [];
 let searchItem = "";
 let selectedCategory = "All";
@@ -252,4 +255,34 @@ function updateAnalysis(){
   }
   document.getElementById("topCategory").innerText = topCategory;
 
+}
+
+function toggleTheme(){
+  if(currentTheme == 'dark'){
+    document.body.classList.add('light-theme');
+    themeToggle.textContent = "☀️";
+    currentTheme = 'light'
+    localStorage.setItem('theme' , "light");
+  }
+  else{
+    document.body.classList.remove('light-theme');
+    themeToggle.textContent = "🌙";
+    currentTheme ='dark';
+    localStorage.setItem('theme','dark');
+
+  }
+}
+
+function loadTheme(){
+  const curr = localStorage.getItem("theme");
+  if(curr ==="light"){
+    document.body.classList.add("light-theme");
+    themeToggle.textContent ="☀️";
+    currentTheme = 'light';
+  }
+  else{
+    document.body.classList.add("dark-theme");
+    themeToggle.textContent ="🌙";
+    currentTheme ='dark';
+  }
 }

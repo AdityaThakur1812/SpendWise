@@ -6,8 +6,17 @@
     --expense:#ef4444;
     --text:#ffffff;
     --muted:#94a3b8;
+    --secondary:#334155;
+    --border:#475569;
 }
 
+.light-theme{
+    --bg:#f8fafc;
+    --card:#ffffff;
+    --text:#0f172a;
+    --secondary:#e2e8f0;
+    --border:#cbd5e1;
+}
 
 *{
     margin:0;
@@ -17,8 +26,8 @@
 }
 
 body{
-    background:#0f172a;
-    color:white;
+    background:var(--bg);
+    color:var(--text);
     min-height:100vh;
     padding:20px;
 }
@@ -30,6 +39,9 @@ body{
 
 .navbar{
     margin-bottom:30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navbar h1{
@@ -102,8 +114,8 @@ input,select{
     padding:14px;
     border:none;
     border-radius:10px;
-    background:#334155;
-    color:white;
+    background:var(--secondary);
+    color:var(--text);
     outline:none;
     height: 60px;
     font-weight: 600;
@@ -129,7 +141,7 @@ button:hover{
 }
 
 .transactions{
-    background:#1e293b;
+    background:var(--card);
     padding:25px;
     border-radius:15px;
 }
@@ -138,7 +150,7 @@ button:hover{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    background:#0f172a;
+    background:var(--bg);
     padding:18px;
     border-radius:12px;
     margin-top:15px;
@@ -156,12 +168,13 @@ button:hover{
 }
 
 .category-badge{
-    display: inline-block;
-    margin-top: 8px;
-    padding: 4px 10px;
-    background:#334155;
+    display:inline-block;
+    margin-top:8px;
+    padding:4px 10px;
+    background:var(--secondary);
     color:white;
     font-size:12px;
+    border-radius:20px;
 }
 
 .transaction-item:hover{
@@ -180,12 +193,12 @@ button:hover{
 }
 
 #searchInput{
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 10px;
-    background:#334155;
-    color:white;
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:var(--secondary);
+    color:var(--text);
 }
 
 .no-result{
@@ -211,8 +224,8 @@ button:hover{
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    background:#334155;
-    color:white;
+    background:var(--secondary);
+    color:var(--text);
     transition:.3s;
 }
 
@@ -244,10 +257,10 @@ button:hover{
 }
 
 .analytics-card{
-    background: #1e293b;
-    padding: 20px;
-    border-radius: 16px;
-    text-align: center;
+    background:var(--card);
+    padding:20px;
+    border-radius:16px;
+    text-align:center;
 }
 
 .analytics-card h3{
